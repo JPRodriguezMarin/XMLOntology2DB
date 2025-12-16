@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ontology>
+    <Class id="1" name="Author">
+        <description>Representa un autor de libros</description>
+        <Attribute name="name" type="string" cardinality="1"/>
+        <Attribute name="birth_date" type="date" cardinality="0..1"/>
+    </Class>
+    
+    <Class id="2" name="Book">
+        <description>Representa un libro</description>
+        <Attribute name="title" type="string" cardinality="1"/>
+        <Attribute name="isbn" type="string" cardinality="1"/>
+    </Class>
+    
+    <Relation name="writes" source="Author" target="Book" 
+              type="association"
+              source_cardinality="1" 
+              target_cardinality="0..n"/>
+</Ontology>
