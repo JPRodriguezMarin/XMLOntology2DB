@@ -262,8 +262,3 @@ Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
 - [ ] Soporte para constraints personalizados
 - [ ] Generación de documentación automática
 
-## 📧 Contacto
-
-Tu Nombre - tu@email.com
-
-Proyecto: [https://github.com/tuusuario/ontology2db](https://github.com/tuusuario/ontology2db)
