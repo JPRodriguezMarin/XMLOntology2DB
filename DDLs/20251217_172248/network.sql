@@ -1,0 +1,9 @@
+
+CREATE TABLE "Network" (
+	id INTEGER NOT NULL, 
+	network_id INTEGER NOT NULL, 
+	protocol VARCHAR NOT NULL, 
+	mask VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+

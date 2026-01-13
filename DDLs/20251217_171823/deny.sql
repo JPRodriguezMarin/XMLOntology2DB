@@ -1,0 +1,7 @@
+
+CREATE TABLE "Deny" (
+	id INTEGER NOT NULL, 
+	deny_id VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+

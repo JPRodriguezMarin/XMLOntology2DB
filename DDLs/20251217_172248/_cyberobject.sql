@@ -1,0 +1,30 @@
+
+CREATE TABLE "_CyberObject" (
+	id INTEGER NOT NULL, 
+	_cyberobject_id INTEGER NOT NULL, 
+	name VARCHAR NOT NULL, 
+	description VARCHAR NOT NULL, 
+	application_id INTEGER NOT NULL, 
+	data_id INTEGER NOT NULL, 
+	device_id INTEGER NOT NULL, 
+	network_id INTEGER NOT NULL, 
+	networklink_id INTEGER NOT NULL, 
+	persona_id INTEGER NOT NULL, 
+	system_id INTEGER NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (application_id), 
+	FOREIGN KEY(application_id) REFERENCES "Application" (id), 
+	UNIQUE (data_id), 
+	FOREIGN KEY(data_id) REFERENCES "Data" (id), 
+	UNIQUE (device_id), 
+	FOREIGN KEY(device_id) REFERENCES "Device" (id), 
+	UNIQUE (network_id), 
+	FOREIGN KEY(network_id) REFERENCES "Network" (id), 
+	UNIQUE (networklink_id), 
+	FOREIGN KEY(networklink_id) REFERENCES "NetworkLink" (id), 
+	UNIQUE (persona_id), 
+	FOREIGN KEY(persona_id) REFERENCES "Persona" (id), 
+	UNIQUE (system_id), 
+	FOREIGN KEY(system_id) REFERENCES "System" (id)
+)
+

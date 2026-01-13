@@ -1,0 +1,7 @@
+
+CREATE TABLE "Event" (
+	id INTEGER NOT NULL, 
+	source_log VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+

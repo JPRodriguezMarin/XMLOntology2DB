@@ -1,0 +1,1189 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Ontology>
+    <Class name="_CyberDEMBase">
+        <description>Superclass for all Cyber DEM Objects and Events
+
+Will create an appropriate ``id`` if one is not given.
+
+:param id: A federation unique identifier string formatted UUIDv4
+:type id: string, optional
+
+:raises ValueError: if a given ``id`` is not a valid string representation
+    of a UUIDv4</description>
+        <Attributes>
+            <Attribute name="_cyberdembase_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="_CyberObject">
+        <description>Superclass for all CyberDEM CyberObjects
+
+CyberObjects are persistent objects on a network or other cyber
+infrastructure.
+
+Inherits :class:`_CyberDEMBase`. Optionally sets the name and/or
+description parameters for any CyberObject subclass.
+
+:param name: The identifier for use in user interfaces, visualization, analysis, etc
+:type name: string, optional
+:param description: A short description of the object
+:type description: string, optional
+:param kwargs: Arguments to pass to the :class:`_CyberDEMBase` class
+:type kwargs: dictionary, optional</description>
+        <Attributes>
+            <Attribute name="_cyberobject_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="name" type="string" cardinality="1" />
+            <Attribute name="description" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="_CyberEvent">
+        <description>Superclass for all CyberDEM CyberEvents
+
+CyberEvents are non-persistent cyber events, as opposed to persistent
+CyberObjects.
+
+Inherits :class:`_CyberDEMBase`. Optionally sets the description, event_time,
+target_ids, cyber event phase, duration, actor_ids, and/or source_ids
+parameters for any CyberEvent subclass.
+
+:param description: A human readable description of the event
+:type description: string, optional
+:param event_time: Time at which the event started
+:type event_time: datetime.datetime, optional
+:param target_ids: One or more IDs identifying the CyberObject(s) targeted in
+    the event
+:type target_ids: list, optional
+:param target_modifiers: mapping of target characteristics to values
+:type target_modifiers: dictionary, optional
+:param phase: The cyber event phase of the event
+:type phase: value from :class:`~cyberdem.enumerations.CyberEventPhaseType`
+    enumeration, optional
+:param duration: Length of time the event lasted
+:type duration: datetime.timedelta, optional
+:param actor_ids: Time ordered list of IDs of the perpetrators involved in
+    this Cyber Event
+:type actor_ids: list, optional
+:param source_ids: Time ordered list of IDs of the simulations that this
+    Cyber Event came from.
+:type source_ids: list, optional
+:param payload: Contains the details of the event itself or the message
+    after the event, as decided by the federation agreement
+:type payload: blob, optional
+:param request_acknowledgement: True if the receiver should send an
+    acknowledgement back to the sender
+:type request_acknowledgement: boolean, optional
+:param kwargs: Arguments to pass to the :class:`_CyberDEMBase` class
+:type kwargs: dictionary, optional</description>
+        <Attributes>
+            <Attribute name="_cyberevent_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="description" type="string" cardinality="1" />
+            <Attribute name="event_time" type="string" cardinality="1" />
+            <Attribute name="target_ids" type="string" cardinality="1" />
+            <Attribute name="target_modifiers" type="string" cardinality="1" />
+            <Attribute name="phase" type="string" cardinality="1" />
+            <Attribute name="duration" type="string" cardinality="1" />
+            <Attribute name="actor_ids" type="string" cardinality="1" />
+            <Attribute name="source_ids" type="string" cardinality="1" />
+            <Attribute name="payload" type="string" cardinality="1" />
+            <Attribute name="request_acknowledgement" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="_CyberEffect">
+        <description>Passive superclass for all Cyber DEM CyberEffects.
+
+Inherits :class:`_CyberEvent`. No additional attributes.</description>
+        <Attributes>
+            <Attribute name="_cybereffect_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="_CyberAction">
+        <description>Passive superclass for all Cyber DEM CyberActions.
+
+Inherits :class:`_CyberEvent`. Included for completeness of the Cyber DEM
+standard.</description>
+        <Attributes>
+            <Attribute name="_cyberaction_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="CyberAcknowledge">
+        <description>Cyber Acknowledge represents a response to a Cyber Event that has requested
+an acknowledgement.
+
+Inherits :class:`_CyberEvent`.
+
+:param related_event_id: ID of the Cyber Event being acknowledged
+:type related_event_id: string, optional
+:param acknowledge_response: The response to the related event being acknowledged
+:type acknowledge_response: value from
+    :class:`~cyberdem.enumerations.AcknowledgeResponseType` enumeration, optional
+:param kwargs: Arguments to pass to the :class:`_CyberEvent` class
+:type kwargs: dictionary, optional
+
+:Example: TODO</description>
+        <Attributes>
+            <Attribute name="cyberacknowledge_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="related_event_id" type="string" cardinality="1" />
+            <Attribute name="acknowledge_response" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="CyberOrder">
+        <description>Cyber Order captures cyberspace related command and control orders/directives.
+Cyber Order is an abstract class intended as an organizational construct.
+The commander will need a persona to be represented in the Actor ID.
+If the order is directed at live subordinates, they will need to have personas to
+be the targets of the order. The content of the orders is represented
+in the Target Modifiers.
+
+Inherits :class:`_CyberEvent`.
+
+:param kwargs: Arguments to pass to the :class:`_CyberEvent` class
+:type kwargs: dictionary, optional
+
+:Example: TODO</description>
+        <Attributes>
+            <Attribute name="cyberorder_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="Application">
+        <description>Representation of an Application object.
+
+Inherits :class:`_CyberObject`.
+
+:param version: Vendor or developer assigned version.
+:type version: string, optional
+:param company: Developer/Producer name.
+:type company: string, optional
+:param kwargs: Arguments to pass to the :class:`_CyberObject` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Application
+    &gt;&gt;&gt; kwargs = {
+    ...    'version': '2.4.2',
+    ...    'name': 'PfSense',
+    ...    'description': 'PfSense Firewall'
+    ...    }
+    &gt;&gt;&gt; my_app = Application(**kwargs)</description>
+        <Attributes>
+            <Attribute name="application_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="version" type="string" cardinality="1" />
+            <Attribute name="company" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Data">
+        <description>Representation of a Data object
+
+Inherits :class:`_CyberObject`.
+
+:param sensitivity: [desc]
+:type sensitivity: value from
+    :class:`~cyberdem.enumerations.SensitivityType` enumeration, optional
+:param data_type: [desc]
+:type data_type: value from
+    :class:`~cyberdem.enumerations.DataType` enumeration, optional
+:param encrypted: [desc]
+:type encrypted: value from
+    :class:`~cyberdem.enumerations.EncryptionType` enumeration, optional
+:param status: [desc]
+:type status: value from
+    :class:`~cyberdem.enumerations.DataStatusType` enumeration, optional
+:param confidentiality: [desc]
+:type confidentiality: float, optional
+:param kwargs: Arguments to pass to the :class:`_CyberObject` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Data
+    &gt;&gt;&gt; kwargs = {
+    ...    'sensitivity': 'FOUO',
+    ...    'data_type': 'File',
+    ...    'confidentiality': 0.6,
+    ...    'name': 'Foo File',
+    ...    'description': 'Foobarred file'
+    ...    }
+    &gt;&gt;&gt; my_data = Data(**kwargs)</description>
+        <Attributes>
+            <Attribute name="data_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="sensitivity" type="string" cardinality="1" />
+            <Attribute name="data_type" type="string" cardinality="1" />
+            <Attribute name="encrypted" type="string" cardinality="1" />
+            <Attribute name="status" type="string" cardinality="1" />
+            <Attribute name="confidentiality" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Device">
+        <description>Representation of a Device object.
+
+Inherits :class:`_CyberObject`.
+
+:param device_types: Type(s) of device (ex. "Sensor", "Printer")
+:type device_types: list of values from the
+    :class:`~cyberdem.enumerations.DeviceType` enumeration, optional
+:param is_virtual: whether the device is a virtual device
+:type is_virtual: boolean, optional
+:param role: [desc]
+:type role: string, optional
+:param device_identifier: [desc]
+:type device_identifier: string, optional
+:param network_interfaces: mapping of interface names to addresses
+:type network_interfaces: list of lists, optional
+:param kwargs: Arguments to pass to the :class:`_CyberObject` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Device
+    &gt;&gt;&gt; kwargs = {
+    ...    'device_type': ['Generic'],
+    ...    'is_virtual': False,
+    ...    'device_identifier':            '(01)12345678987654(55)120717(55)A12345B(55)4321',
+    ...    'name': 'The Server',
+    ...    'description': 'Generic server description'
+    ...    }
+    &gt;&gt;&gt; net_ints = [['eth0','204.105.24.23'], ['eth1','192.168.10.101']]
+    &gt;&gt;&gt; my_device = Device(network_interfaces=net_ints, **kwargs)</description>
+        <Attributes>
+            <Attribute name="device_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="device_types" type="string" cardinality="1" />
+            <Attribute name="is_virtual" type="string" cardinality="1" />
+            <Attribute name="role" type="string" cardinality="1" />
+            <Attribute name="device_identifier" type="string" cardinality="1" />
+            <Attribute name="network_interfaces" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Network">
+        <description>Representation of a Network object.
+
+Inherits :class:`_CyberObject`.
+
+:param protocol: protocol used on the network
+:type protocol: value from the
+    :class:`~cyberdem.enumerations.NetworkProtocolType` enumeration,
+    optional
+:param mask: network mask
+:type mask: string, optional
+:param kwargs: Arguments to pass to the :class:`_CyberObject` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Network
+    &gt;&gt;&gt; kwargs = {
+    ...    'protocol': 'OSPF',
+    ...    'mask': '255.255.255.0',
+    ...    'name': 'Network 10',
+    ...    'description': 'User network'
+    ... }
+    &gt;&gt;&gt; my_network = Network(**kwargs)</description>
+        <Attributes>
+            <Attribute name="network_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="protocol" type="string" cardinality="1" />
+            <Attribute name="mask" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="NetworkLink">
+        <description>Representation of a NetworkLink object.
+
+Inherits :class:`_CyberObject`.
+
+:param is_logical: the link is logical (rather than physical)
+:type is_logical: boolean, optional
+:param physical_layer: what type is the physical layer
+:type physical_layer: value from the
+    :class:`~cyberdem.enumerations.PhysicalLayerType` enumeration, optional
+:param data_link_protocol: data link protocol
+:type data_link_protocol: value from the
+    :class:`~cyberdem.enumerations.DataLinkProtocolType` enumeration,
+    optional
+:param bandwidth: Max data transfer rate of the link in bps
+:type bandwidth: integer, optional
+:param latency: network link latency in milliseconds
+:type latency: integer, optional
+:param jitter: variability in the latency, measured in milliseconds
+:type jitter: integer, optional
+:param network_interfaces: mapping of interface names to addresses
+:type network_interfaces: list of lists, optional
+:param kwargs: Arguments to pass to the :class:`_CyberObject` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import NetworkLink
+    &gt;&gt;&gt; kwargs = {
+    ...    'is_logical': False,
+    ...    'physical_layer': 'Wired',
+    ...    'data_link_protocol': 'Ethernet',
+    ...    'bandwidth': 5,
+    ...    'name': 'Link 10',
+    ...    'description': 'User network link'
+    ... }
+    &gt;&gt;&gt; net_ints = [['eth1','192.168.10.100'], ['eth0','192.168.10.101']]
+    &gt;&gt;&gt; my_link = NetworkLink(network_interfaces=net_ints, **kwargs)</description>
+        <Attributes>
+            <Attribute name="networklink_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="is_logical" type="string" cardinality="1" />
+            <Attribute name="physical_layer" type="string" cardinality="1" />
+            <Attribute name="data_link_protocol" type="string" cardinality="1" />
+            <Attribute name="bandwidth" type="string" cardinality="1" />
+            <Attribute name="latency" type="string" cardinality="1" />
+            <Attribute name="jitter" type="string" cardinality="1" />
+            <Attribute name="network_interfaces" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Persona">
+        <description>Representation of a Persona object.
+
+Inherits :class:`_CyberObject`. No additional attributes.
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Persona
+    &gt;&gt;&gt; kwargs = {
+    ...    'name': 'Attacker 1',
+    ...    'description': 'nation-state actor'
+    ... }
+    &gt;&gt;&gt; attacker_1 = Persona(**kwargs)</description>
+        <Attributes>
+            <Attribute name="persona_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="System">
+        <description>Representation of a System object.
+
+Inherits :class:`_CyberObject`.
+
+:param system_type: Type of system
+:type system_type: value from the
+    :class:`~cyberdem.enumerations.SystemType` enumeration, optional
+:param kwargs: Arguments to pass to the :class:`_CyberObject` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import System
+    &gt;&gt;&gt; kwargs = {
+    ...    'system_type': 'SCADA',
+    ...    'name': 'MTU',
+    ...    'description': 'Network 1 MTU'
+    ... }
+    &gt;&gt;&gt; my_system = System(**kwargs)</description>
+        <Attributes>
+            <Attribute name="system_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="system_type" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="OperatingSystem">
+        <description>Representation of a OperatingSystem object.
+
+Inherits :class:`Application`.
+
+:param os_type: Type of software supporting a computer's basic functions
+:type os_type: value from the
+    :class:`~cyberdem.enumerations.OperatingSystemType` enumeration,
+    optional
+:param kwargs: Arguments to pass to the :class:`Application` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import OperatingSystem
+    &gt;&gt;&gt; kwargs = {
+    ...    'os_type': 'MicrosoftWindows',
+    ...    'name': 'User machine',
+    ...    'description': 'For employees in foo department',
+    ...    'version': '10'
+    ... }
+    &gt;&gt;&gt; my_os = OperatingSystem(**kwargs)</description>
+        <Attributes>
+            <Attribute name="operatingsystem_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="os_type" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Service">
+        <description>Representation of a Service object.
+
+Inherits :class:`Application`.
+
+:param service_type: value from the
+    :class:`~cyberdem.enumerations.ServiceType` enumeration, optional
+:type service_type: value from the
+    :class:`~cyberdem.enumerations.OperatingSystemType` enumeration, optional
+:param address:
+:type address: string, optional
+:param kwargs: Arguments to pass to the :class:`Application` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Service
+    &gt;&gt;&gt; kwargs = {
+    ...    'service_type': 'EmailServer',
+    ...    'version': '15.2.595.4',
+    ...    'name': 'Mail Server 1',
+    ...    'description': 'external exchange server'
+    ... }
+    &gt;&gt;&gt; my_service = Service(**kwargs)</description>
+        <Attributes>
+            <Attribute name="service_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="service_type" type="string" cardinality="1" />
+            <Attribute name="address" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="CommunicationsData">
+        <description>Representation of a CommunicationsData object.
+
+Inherits :class:`Data`.
+
+:param packet_size: Average size (in bytes) of individual packets
+:type packet_size: integer, optional
+:param packet_size_standard_deviation: Variability of packet sizes (0.0 for fixed sized packets)
+:type packet_size_standard_deviation: float, optional
+:param frequency: Packets per second
+:type frequency: float, optional
+:param duplex: True if the communications bidirectional
+:type duplex: boolean, optional
+:param kwargs: Arguments to pass to the :class:`Data` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import CommunicationsData
+    &gt;&gt;&gt; kwargs = {
+    ...    'name': 'Data Stream',
+    ...    'packet_size': 256,
+    ...    'frequency': 3.8,
+    ...    'duplex': False
+    ... }
+    &gt;&gt;&gt; my_comm_data = CommunicationsData(**kwargs)</description>
+        <Attributes>
+            <Attribute name="communicationsdata_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="packet_size" type="string" cardinality="1" />
+            <Attribute name="packet_size_standard_deviation" type="string" cardinality="1" />
+            <Attribute name="frequency" type="string" cardinality="1" />
+            <Attribute name="duplex" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="CyberAdmin">
+        <description>Representation of a CyberAdmin object.
+
+Inherits :class:`_CyberAction`.
+
+:param admin_type: Type of cyber action of an administration nature
+:type admin_type: value from the :class:`~cyberdem.enumerations.AdminType`
+     enumeration, optional
+:param kwargs: Arguments to pass to the :class:`_CyberAction` class
+:type kwargs: dictionary, optional
+
+:Example: TODO</description>
+        <Attributes>
+            <Attribute name="cyberadmin_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="admin_type" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="CyberAttack">
+        <description>Representation of a CyberAttack object.
+
+Inherits :class:`_CyberAction`. No additional attributes.
+
+:param mitre_attack_subtechnique_ids: References to MITRE's ATT&amp;CK Sub-techniques
+:type mitre_attack_subtechnique_ids: list of strings, optional
+:param kwargs: Arguments to pass to the :class:`_CyberAction` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import CyberAttack
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'target_modifiers': {"characteristic":"value"},
+    ...    'phase': 'Continue',
+    ...    'duration': timedelta(seconds=10),
+    ...    'actor_ids': [attacker_1.id]
+    ... }
+    &gt;&gt;&gt; generic_attack = CyberAttack(**kwargs)</description>
+        <Attributes>
+            <Attribute name="cyberattack_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="mitre_attack_subtechnique_ids" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="CyberDefend">
+        <description>Representation of a CyberDefend object.
+
+Inherits :class:`_CyberAction`.
+
+:param mitre_attack_mitigation_ids: References to MITRE's ATT&amp;CK Mitigations
+:type mitre_attack_mitigation_ids: list of strings, optional
+:param kwargs: Arguments to pass to the :class:`_CyberAction` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import CyberDefend
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'target_modifiers': {"characteristic":"value"},
+    ...    'phase': 'Start',
+    ...    'source_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; generic_defend = CyberDefend(**kwargs)</description>
+        <Attributes>
+            <Attribute name="cyberdefend_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="mitre_attack_mitigation_ids" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="CyberRecon">
+        <description>Representation of a CyberRecon object.
+
+Inherits :class:`_CyberAction`.
+
+:param recon_type: Type of reconnaissance
+:type recon_type: value from the :class:`~cyberdem.enumerations.ReconType`
+     enumeration, optional
+:param mitre_attack_detection_ids: References to MITRE's ATT&amp;CK Detections
+:type mitre_attack_detection_ids: list of strings, optional
+:param kwargs: Arguments to pass to the :class:`_CyberAction` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import CyberDefend
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'recon_type': 'NetworkMap',
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'source_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; recon_event = CyberRecon(**kwargs)</description>
+        <Attributes>
+            <Attribute name="cyberrecon_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="recon_type" type="string" cardinality="1" />
+            <Attribute name="mitre_attack_detection_ids" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Deny">
+        <description>To prevent access to, operation of, or availability of a target function by
+a specified level for a specified time, by degrade, disrupt, or destroy
+(JP3-12)
+
+Inherits :class:`_CyberEffect`. No additional attributes.
+
+:param kwargs: Arguments to pass to the :class:`_CyberEffect` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Deny
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; deny_effect = Deny(**kwargs)</description>
+        <Attributes>
+            <Attribute name="deny_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="Detect">
+        <description>To discover or discern the existence, presence, or fact of an intrusion
+into information systems.
+
+Inherits :class:`_CyberEffect`.
+
+:param acquired_information: Key-value pairs describing information
+    acquired as a result of a Detect Cyber Effect
+:type acquired_information: dictionary, optional
+:param kwargs: Arguments to pass to the :class:`_CyberEffect` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Detect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; info = {'siem log': 'file permission change on user-ws-2'}
+    &gt;&gt;&gt; kwargs = {
+    ...    'acquired_information': info,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; detect_effect = Detect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="detect_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="acquired_information" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Manipulate">
+        <description>The effect of controlling or changing information, information systems,
+and/or networks to create physical denial effects, using deception,
+decoying, conditioning, spoofing, falsification, and other similar
+techniques.
+
+Inherits :class:`_CyberEffect`.
+
+:param kwargs: Arguments to pass to the :class:`_CyberEffect` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Manipulate
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'description': "ransomware encrypted drives",
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'duration': timedelta(hours=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; manipulate_effect = Manipulate(**kwargs)</description>
+        <Attributes>
+            <Attribute name="manipulate_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="DataExfiltration">
+        <description>Data exfiltration is the unauthorized copying, transfer or retrieval of
+data from a computer or server. Data exfiltration is a malicious activity
+performed through various different techniques, typically by cybercriminals
+over the Internet or other network.
+
+Inherits :class:`CyberAttack`. No additional attributes.
+
+:param kwargs: Arguments to pass to the :class:`CyberAttack` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import DataExfiltration
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'event_time': datetime.today(),
+    ...    'phase': 'End',
+    ...    'target_ids': [the_target.id],
+    ...    'duration': timedelta(hours=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; exfil = DataExfiltration(**kwargs)</description>
+        <Attributes>
+            <Attribute name="dataexfiltration_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="Destroy">
+        <description>To completely and irreparably deny access to, or operation of, a target.
+
+Inherits :class:`Deny`. No additional attributes.
+
+:param kwargs: Arguments to pass to the :class:`Deny` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Destroy
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; destroy_effect = Destroy(**kwargs)</description>
+        <Attributes>
+            <Attribute name="destroy_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="Degrade">
+        <description>To deny access to, or operation of, a target to a level represented as a
+percentage of capacity
+
+Inherits :class:`Deny`.
+
+:param is_random: whether or not the disruption is uniform or random
+:type is_random: boolean, optional
+:param percentage: Percentage of degradation (where 100.0 is equivalent to disrupt)
+:type percentage: float, optional
+:param kwargs: Arguments to pass to the :class:`Deny` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Degrade
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'is_random': False,
+    ...    'percentage': .7,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; degrade_effect = Degrade(**kwargs)</description>
+        <Attributes>
+            <Attribute name="degrade_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="is_random" type="string" cardinality="1" />
+            <Attribute name="percentage" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="Disrupt">
+        <description>To completely but temporarily deny access to, or operation of, a target for
+a period of time.
+
+Inherits :class:`Deny`.
+
+:param kwargs: Arguments to pass to the :class:`Deny` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import Disrupt
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; disrupt_effect = Disrupt(**kwargs)</description>
+        <Attributes>
+            <Attribute name="disrupt_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="ManipulationEffect">
+        <description>A Manipulation Effect describes the type, effected information/system/network,
+and/or extent (as a percentage) of the manipulation attack.
+
+Inherits :class:`Manipulate`.
+
+:param manipulation_type: type of manipulation
+:type manipulation_type: value from
+    :class:`~cyberdem.enumerations.ManipulationType` enumeration,
+    optional
+:param packet_manipulation_type: type of packet manipulation
+:type packet_manipulation_type: value from
+    :class:`~cyberdem.enumerations.PacketManipulationType` enumeration,
+    optional
+:param percentage: Percentage of packets to affect between 0.0 and 100.0
+:type percentage: float, optional
+:param kwargs: Arguments to pass to the :class:`Manipulate` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import ManipulationEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'manipulation_type': 'Dropped',
+    ...    'percentage': 1,
+    ...    'description': "dropping packets",
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'duration': timedelta(hours=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; manipulation_effect = ManipulationEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="manipulationeffect_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="manipulation_type" type="string" cardinality="1" />
+            <Attribute name="packet_manipulation_type" type="string" cardinality="1" />
+            <Attribute name="percentage" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="ManipulationAttack">
+        <description>Controls or changes information, information systems, and/or networks to
+create physical denial effects, using deception, decoying, conditioning,
+spoofing, falsification, and other similar techniques.
+
+Inherits :class:`CyberAttack`.
+
+:param description: Describes the "what and how" of the manipulation attack
+:type description: string, optional
+:param attack_content: could contain the details of the manipulation attack
+    itself OR the manipulated message after the attack
+:type attack_content: string, optional
+:param kwargs: Arguments to pass to the :class:`CyberAttack` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import DataExfiltration
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'event_time': datetime.today(),
+    ...    'phase': 'End',
+    ...    'target_ids': [the_target.id],
+    ...    'duration': timedelta(hours=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; exfil = DataExfiltration(**kwargs)</description>
+        <Attributes>
+            <Attribute name="manipulationattack_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="PhishingAttack">
+        <description>The fraudulent practice of sending messages purporting to be from reputable
+sources in order to induce individuals to reveal sensitive information or
+unknowingly initiate another attack.
+
+Inherits :class:`CyberAttack`.
+
+:param message_type: Type of the message used in the attack
+:type message_type: value from the
+    :class:`~cyberdem.enumerations.MessageType` enumeration, optional
+:param header: Originator, From, To, Subject, Reply To
+:type header: string, optional
+:param body: The body/content of the email/message
+:type body: string, optional
+:param kwargs: Arguments to pass to the :class:`CyberAttack` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import PhishingAttack
+    &gt;&gt;&gt; from datetime import datetime
+    &gt;&gt;&gt; kwargs = {
+    ...    'message_type': 'Email',
+    ...    'header': 'From: Your Name &lt;yourname@foo.bar&gt;, To: My Name             &lt;myname@bar.foo&gt;, Subject: foo the bar',
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; phish = PhishingAttack(**kwargs)</description>
+        <Attributes>
+            <Attribute name="phishingattack_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="message_type" type="string" cardinality="1" />
+            <Attribute name="header" type="string" cardinality="1" />
+            <Attribute name="body" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="BlockTrafficEffect">
+        <description>Completely block all traffic over a communication channel.
+
+Inherits :class:`Disrupt`. No additional attributes.
+
+:param kwargs: Arguments to pass to the :class:`Disrupt` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import BlockTrafficEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'is_random': False,
+    ...    'percentage': .7,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Continue',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; blocktraffic_effect = BlockTrafficEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="blocktrafficeffect_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="HardwareDamageEffect">
+        <description>Physical damage to a device.
+
+Inherits :class:`Destroy`.
+
+:param damage_type: type of damage
+:type damage_type: value from the
+    :class:`~cyberdem.enumerations.HardwareDamageType` enumeration,
+    optional
+:param kwargs: Arguments to pass to the :class:`Destroy` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import HardwareDamageEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'damage_type': 'PhysicalDestruction',
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(days=5)
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; hwdamage_effect = HardwareDamageEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="hardwaredamageeffect_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="damage_type" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="CPULoadEffect">
+        <description>Artificial increase in CPU load.
+
+Inherits :class:`Degrade`.
+
+:param percentage: Percentage of CPU usage between 0.0 and 100.0
+:type percentage: float, optional
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import CPULoadEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'percentage': 70,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; cpuload_effect = CPULoadEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="cpuloadeffect_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="DelayEffect">
+        <description>Increased time for data to travel between two points
+
+Inherits :class:`Degrade`.
+
+:param seconds: Number of seconds to delay delivery of data
+:type seconds: float, optional
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import DelayEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'seconds': 22.5,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'duration': timedelta(minutes=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; delay_effect = DelayEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="delayeffect_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="seconds" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="DropEffect">
+        <description>Packet dropping.
+
+Inherits :class:`Degrade`.
+
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import DropEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'percentage': 99.5,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; pdrop_effect = DropEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="dropeffect_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="HardwareDegradeEffect">
+        <description>Degradation, but not destruction of, hardware.
+
+Inherits :class:`Degrade`.
+
+:param degrade_type: value from the
+    :class:`~cyberdem.enumerations.HardwareDegradeType` enumeration
+:type degrade_type: string, optional
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import HardwareDegradeEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'degrade_type': 'BlueScreen',
+    ...    'percentage': 90,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; hw_effect = HardwareDegradeEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="hardwaredegradeeffect_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="degrade_type" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="JitterEffect">
+        <description>Class for JitterEffect object.
+
+Inherits :class:`Degrade`.
+
+:param milliseconds: Time delay variance
+:type milliseconds: integer, optional
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import JitterEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'milliseconds': 22.5,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'duration': timedelta(minutes=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; jitter_effect = JitterEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="jittereffect_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="milliseconds" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="LoadRateEffect">
+        <description>Impact on data upload or download rate.
+
+Inherits :class:`Degrade`.
+
+:param rate_type: Type (direction) of load that is effected
+:type rate_type: value from the
+    :class:`~cyberdem.enumerations.LoadRateType` enumeration, optional
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import LoadRateEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'percentage': 22.5,
+    ...    'rate_type': 'Upload',
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; loadrate_effect = LoadRateEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="loadrateeffect_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="rate_type" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Class name="MemoryUseEffect">
+        <description>Artificial increase in memory usage.
+
+Inherits :class:`Degrade`.
+
+:param percentage: Percentage of memory to use between 0.0 and 100.0
+:type percentage: float, optional
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import MemoryUseEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'percentage': 70,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; memuse_effect = MemoryUseEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="memoryuseeffect_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="OtherDegradeEffect">
+        <description>Generic degradation effect.
+
+Inherits :class:`Degrade`.
+
+:param kwargs: Arguments to pass to the :class:`Degrade` class
+:type kwargs: dictionary, optional
+
+:Example:
+    &gt;&gt;&gt; from cyberdem.base import OtherDegradeEffect
+    &gt;&gt;&gt; from datetime import datetime, timedelta
+    &gt;&gt;&gt; kwargs = {
+    ...    'degrade_type': 'BlueScreen',
+    ...    'percentage': 90,
+    ...    'event_time': datetime.today(),
+    ...    'target_ids': [the_target.id],
+    ...    'phase': 'Start',
+    ...    'duration': timedelta(seconds=5),
+    ...    'actor_ids': ["77545b7d-3900-4e34-a26f-eec5eb954d33"]
+    ... }
+    &gt;&gt;&gt; other_effect = OtherDegradeEffect(**kwargs)</description>
+        <Attributes>
+            <Attribute name="otherdegradeeffect_id" type="integer" cardinality="1" primary_key="true" />
+        </Attributes>
+    </Class>
+    <Class name="Relationship">
+        <description>Represents a relationship between two CyberObjects.
+
+Given two CyberObjects A and B, where A administers B, the
+``related_object_1`` would be the id of A and ``related_object_2`` would be
+the ID of B, preserving the ordering of "A administers B".
+
+:param related_object_1: ID of a CyberObject
+:type related_object_1: UUIDv4 string, required
+:param related_object_2: ID of a CyberObject
+:type related_object_2: UUIDv4 string, required
+:param relationship_type: value from
+    :class:`~cyberdem.enumerations.RelationshipType`
+:type relationship_type: string, optional
+:param id: unique ID (UUIDv4)
+:type id: string, optional
+:param privileges: List of privileges the object with respect to the related object
+:type privileges: list of strings, optional
+
+:Example:
+    &gt;&gt;&gt; # Where my_application is installed on my_device
+    &gt;&gt;&gt; from cyberdem.base import Application, Device, Relationship
+    &gt;&gt;&gt; my_application = Application()
+    &gt;&gt;&gt; my_device = Device()
+    &gt;&gt;&gt; my_rel = Relationship(
+    ...    my_device.id, my_application.id,
+    ...    relationship_type='ResidesOn', privileges=['priv1', 'priv2'])</description>
+        <Attributes>
+            <Attribute name="relationship_id" type="integer" cardinality="1" primary_key="true" />
+            <Attribute name="related_object_1" type="string" cardinality="1" />
+            <Attribute name="related_object_2" type="string" cardinality="1" />
+            <Attribute name="relationship_type" type="string" cardinality="1" />
+            <Attribute name="privileges" type="string" cardinality="1" />
+        </Attributes>
+    </Class>
+    <Relations>
+        <Relation name="is_a" source="_CyberObject" target="_CyberDEMBase" />
+        <Relation name="is_a" source="_CyberEvent" target="_CyberDEMBase" />
+        <Relation name="is_a" source="_CyberEffect" target="_CyberEvent" />
+        <Relation name="is_a" source="_CyberAction" target="_CyberEvent" />
+        <Relation name="is_a" source="CyberAcknowledge" target="_CyberEvent" />
+        <Relation name="is_a" source="CyberOrder" target="_CyberEvent" />
+        <Relation name="is_a" source="Application" target="_CyberObject" />
+        <Relation name="is_a" source="Data" target="_CyberObject" />
+        <Relation name="is_a" source="Device" target="_CyberObject" />
+        <Relation name="is_a" source="Network" target="_CyberObject" />
+        <Relation name="is_a" source="NetworkLink" target="_CyberObject" />
+        <Relation name="is_a" source="Persona" target="_CyberObject" />
+        <Relation name="is_a" source="System" target="_CyberObject" />
+        <Relation name="is_a" source="OperatingSystem" target="Application" />
+        <Relation name="is_a" source="Service" target="Application" />
+        <Relation name="is_a" source="CommunicationsData" target="Data" />
+        <Relation name="is_a" source="CyberAdmin" target="_CyberAction" />
+        <Relation name="is_a" source="CyberAttack" target="_CyberAction" />
+        <Relation name="is_a" source="CyberDefend" target="_CyberAction" />
+        <Relation name="is_a" source="CyberRecon" target="_CyberAction" />
+        <Relation name="is_a" source="Deny" target="_CyberEffect" />
+        <Relation name="is_a" source="Detect" target="_CyberEffect" />
+        <Relation name="is_a" source="Manipulate" target="_CyberEffect" />
+        <Relation name="is_a" source="DataExfiltration" target="CyberAttack" />
+        <Relation name="is_a" source="Destroy" target="Deny" />
+        <Relation name="is_a" source="Degrade" target="Deny" />
+        <Relation name="is_a" source="Disrupt" target="Deny" />
+        <Relation name="is_a" source="ManipulationEffect" target="Manipulate" />
+        <Relation name="is_a" source="ManipulationAttack" target="CyberAttack" />
+        <Relation name="is_a" source="PhishingAttack" target="CyberAttack" />
+        <Relation name="is_a" source="BlockTrafficEffect" target="Disrupt" />
+        <Relation name="is_a" source="HardwareDamageEffect" target="Destroy" />
+        <Relation name="is_a" source="CPULoadEffect" target="Degrade" />
+        <Relation name="is_a" source="DelayEffect" target="Degrade" />
+        <Relation name="is_a" source="DropEffect" target="Degrade" />
+        <Relation name="is_a" source="HardwareDegradeEffect" target="Degrade" />
+        <Relation name="is_a" source="JitterEffect" target="Degrade" />
+        <Relation name="is_a" source="LoadRateEffect" target="Degrade" />
+        <Relation name="is_a" source="MemoryUseEffect" target="Degrade" />
+        <Relation name="is_a" source="OtherDegradeEffect" target="Degrade" />
+        <Relation name="references" source="CyberAcknowledge" target="Related_event" />
+    </Relations>
+</Ontology>

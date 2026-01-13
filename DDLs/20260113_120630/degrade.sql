@@ -1,0 +1,33 @@
+
+CREATE TABLE "Degrade" (
+	id INTEGER NOT NULL, 
+	degrade_id INTEGER NOT NULL, 
+	is_random VARCHAR NOT NULL, 
+	percentage VARCHAR NOT NULL, 
+	cpuloadeffect_id INTEGER NOT NULL, 
+	delayeffect_id INTEGER NOT NULL, 
+	dropeffect_id INTEGER NOT NULL, 
+	hardwaredegradeeffect_id INTEGER NOT NULL, 
+	jittereffect_id INTEGER NOT NULL, 
+	loadrateeffect_id INTEGER NOT NULL, 
+	memoryuseeffect_id INTEGER NOT NULL, 
+	otherdegradeeffect_id INTEGER NOT NULL, 
+	PRIMARY KEY (id), 
+	UNIQUE (cpuloadeffect_id), 
+	FOREIGN KEY(cpuloadeffect_id) REFERENCES "CPULoadEffect" (id), 
+	UNIQUE (delayeffect_id), 
+	FOREIGN KEY(delayeffect_id) REFERENCES "DelayEffect" (id), 
+	UNIQUE (dropeffect_id), 
+	FOREIGN KEY(dropeffect_id) REFERENCES "DropEffect" (id), 
+	UNIQUE (hardwaredegradeeffect_id), 
+	FOREIGN KEY(hardwaredegradeeffect_id) REFERENCES "HardwareDegradeEffect" (id), 
+	UNIQUE (jittereffect_id), 
+	FOREIGN KEY(jittereffect_id) REFERENCES "JitterEffect" (id), 
+	UNIQUE (loadrateeffect_id), 
+	FOREIGN KEY(loadrateeffect_id) REFERENCES "LoadRateEffect" (id), 
+	UNIQUE (memoryuseeffect_id), 
+	FOREIGN KEY(memoryuseeffect_id) REFERENCES "MemoryUseEffect" (id), 
+	UNIQUE (otherdegradeeffect_id), 
+	FOREIGN KEY(otherdegradeeffect_id) REFERENCES "OtherDegradeEffect" (id)
+)
+

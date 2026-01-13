@@ -1,0 +1,9 @@
+
+CREATE TABLE "Mission" (
+	id INTEGER NOT NULL, 
+	mission_id VARCHAR NOT NULL, 
+	name VARCHAR NOT NULL, 
+	priority VARCHAR NOT NULL, 
+	PRIMARY KEY (id)
+)
+

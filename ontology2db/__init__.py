@@ -1,5 +1,21 @@
 """Ontology to Database Converter"""
 __version__ = "1.0.0"
 
-# IMPORTANTE: Copia el contenido del Artifact 1 aquí
-# Desde "from .parser import OntologyParser" hasta el final
+"""
+Ontology to Database Converter
+Convierte ontologías XML a modelos SQLAlchemy y esquemas relacionales.
+"""
+
+__version__ = "1.0.0"
+
+from .parser import OntologyParser
+from .mapper import OntologyMapper
+from .codegen import SQLAlchemyGenerator
+from .visualizer import OntologyVisualizer
+
+__all__ = [
+    "OntologyParser",
+    "OntologyMapper", 
+    "SQLAlchemyGenerator",
+    "OntologyVisualizer"
+]

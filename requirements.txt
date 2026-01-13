@@ -1,7 +1,16 @@
+# Core dependencies
 lxml>=4.9.0
 SQLAlchemy>=2.0.0
 networkx>=3.0
+
+# Visualization
 pyvis>=0.3.2
 matplotlib>=3.7.0
+
+# Testing
 pytest>=7.4.0
 pytest-cov>=4.1.0
+
+# Optional: for better graph layouts
+# pydot>=1.4.2
+# pygraphviz>=1.11
